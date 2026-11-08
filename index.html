@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Compras con decimales · manipulativa</title>
+<style>
+:root{--bg:#f6f8f9;--tx:#1d2b33;--card:#fff;--ln:#9aa9b2;--c:#0f7b7b;--w:#c2410c;--ok:#15803d;--bad:#b91c1c;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12191d;--tx:#e6edf0;--card:#1b262c;--ln:#5d707a;--c:#4fc3c3;--w:#fb923c;--ok:#4ade80;--bad:#f87171;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#12191d;--tx:#e6edf0;--card:#1b262c;--ln:#5d707a;--c:#4fc3c3;--w:#fb923c;--ok:#4ade80;--bad:#f87171;color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:1.1rem/1.5 "Trebuchet MS",sans-serif;padding:1rem}
+main{max-width:40rem;margin:auto}
+h1{font:bold 1.5rem Georgia,serif;margin:.2rem 0 .6rem}
+button{font:inherit;cursor:pointer;border:2px solid var(--c);background:var(--card);color:var(--tx);border-radius:.6rem;padding:.45rem .8rem;min-height:2.8rem}
+button.on,button.pri{background:var(--c);color:#fff}
+button:disabled{opacity:.4;cursor:default}
+.sc{font-size:.95rem;color:var(--ln);margin:.2rem 0 .6rem}
+.card{background:var(--card);border-left:6px solid var(--c);border-radius:.5rem;padding:.7rem 1rem;margin:.7rem 0}
+.card.w{border-color:var(--w)}
+.pr{font-size:.9rem;color:var(--ln);margin:0 0 .3rem}
+.tb,.te,.td{display:block}
+.tb{width:2.7rem;height:1.5rem}.te{width:1.9rem;height:1.9rem}.td{width:1.35rem;height:1.35rem}
+[data-src]{touch-action:none;cursor:grab}
+.ghost{position:fixed;pointer-events:none;z-index:9}
+.pw{display:flex;gap:.4rem;align-items:flex-start;margin:.6rem 0 .3rem}
+.pool{flex:1;display:flex;flex-wrap:wrap;gap:.15rem;align-items:center;border:2px dashed var(--ln);border-radius:.6rem;padding:.4rem;min-height:3.2rem}
+.pool .sc{margin:0}
+.xc{display:flex;flex-direction:column;gap:.3rem}
+.xc button{font-size:.72rem;line-height:1.15;min-height:2.3rem;padding:.15rem .35rem;border-radius:.5rem;width:5.3rem}
+.row{display:flex;flex-wrap:wrap;gap:.7rem;align-items:flex-start;margin:.8rem 0 .4rem}
+.it{display:flex;flex-direction:column;align-items:center;width:5.6rem}
+.em{font-size:1.8rem;line-height:1.2;margin-bottom:.2rem}
+.bx{width:100%;min-height:3.2rem;display:flex;flex-wrap:wrap;gap:.12rem;align-content:flex-start;justify-content:center;border:2px solid var(--c);border-radius:.3rem .3rem .8rem .8rem;padding:.3rem;background:var(--card)}
+.newc{width:5.6rem;min-height:5.8rem;border:2px dashed var(--ln);border-radius:.6rem;display:flex;align-items:center;justify-content:center;text-align:center;font-size:.75rem;line-height:1.2;color:var(--ln);cursor:pointer}
+.ctl{display:flex;gap:.5rem;flex-wrap:wrap;margin:.4rem 0}
+.ctl button{font-size:.95rem;min-height:2.6rem}
+.ans{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap}
+.ans input{font:bold 1.6rem Georgia,serif;width:7rem;padding:.3rem .5rem;border:2px solid var(--c);border-radius:.6rem;background:var(--card);color:var(--tx)}
+.un{font:bold 1.3rem Georgia,serif}
+.msg{font-weight:bold;margin:.2rem 0 .5rem}
+.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.eq{font:bold 1.3rem Georgia,serif;margin:.4rem 0}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="b10" viewBox="0 0 44 24"><rect x="1" y="1" width="42" height="22" rx="2.5" fill="#e8776f" stroke="#a63a33"/><rect x="4" y="4" width="36" height="16" rx="1.5" fill="none" stroke="#f6c4bf" stroke-width=".8"/><text x="22" y="16" text-anchor="middle" font-size="10.5" font-weight="bold" font-family="Georgia,serif" fill="#fff">10 €</text></symbol>
+<symbol id="e1" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9.2" fill="#cbd5df" stroke="#8795a3"/><circle cx="10" cy="10" r="6.3" fill="#f1c232" stroke="#b8860b" stroke-width=".8"/><text x="10" y="12.8" text-anchor="middle" font-size="7.5" font-weight="bold" font-family="Georgia,serif" fill="#6b4c00">1 €</text></symbol>
+<symbol id="d1" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9.2" fill="#e3a65a" stroke="#a8692a"/><circle cx="10" cy="10" r="7" fill="none" stroke="#c98a40" stroke-width=".8"/><text x="10" y="12.8" text-anchor="middle" font-size="7.5" font-weight="bold" font-family="Arial,sans-serif" fill="#5a3410">10c</text></symbol>
+</defs></svg>
+<main>
+<h1>🛒 Compras con decimales</h1>
+<div class="sc" id="sc"></div>
+<div id="app"></div>
+</main>
+<script>
+var P=[['cuaderno','cuadernos','📒',120,390],['bocadillo','bocadillos','🥪',210,490],['libro','libros','📚',710,1490],['helado','helados','🍦',110,390],['balón','balones','⚽',810,1590],['bolígrafo','bolígrafos','🖊️',60,190]];
+var NM={T:'Precio de la compra',U:'Precio de cada artículo',V:'Artículos'};
+var S={ok:0,streak:0,ch:null,step:1,done:false,lt:{},ord:[],rA:false,rL:false,rB:null,inp:'',c:[],pool:{b:0,e:0,d:0}},H=[];
+var $=function(i){return document.getElementById(i)};
+function R(a,b){return a+Math.floor(Math.random()*(b-a+1))}
+function fn(c){return (c/100).toFixed(2).replace('.',',')}
+function fm(c){return fn(c)+' €'}
+function pr(s){var x=parseFloat(String(s).replace(',','.').replace(/[^0-9.]/g,''));return isNaN(x)?-1:x}
+function gr(c){return {b:Math.floor(c/1000),e:Math.floor((c%1000)/100),d:(c%100)/10}}
+function val(o){return o.b*1000+o.e*100+o.d*10}
+function cn(o,s){var r='',i;[['b','tb','b10'],['e','te','e1'],['d','td','d1']].forEach(function(x){for(i=0;i<o[x[0]];i++)r+='<svg class="'+x[1]+'"'+(s===null?'':' data-src="'+s+':'+x[0]+'"')+'><use href="#'+x[2]+'"/></svg>'});return r}
+function next(){var m=['u','v','t'][R(0,2)],p=P[R(0,P.length-1)],U,V,T,k,i=0;
+do{U=10*R(p[3]/10,p[4]/10);V=R(2,6);T=U*V;k=U+'x'+V;i++}while((U%100==0||T>9000||H.indexOf(k)>=0)&&i<80);
+H.push(k);if(H.length>10)H.shift();
+S.ch={m:m,U:U,V:V,T:T,p:p};S.step=1;S.done=false;S.lt={};S.inp='';S.ord=['T','U','V'].sort(function(){return Math.random()-.5});init();draw()}
+function init(){var h=S.ch,i;S.c=[];S.pool=gr(h.T);
+if(h.m=='u')for(i=0;i<h.V;i++)S.c.push({b:0,e:0,d:0});
+if(h.m=='t'){for(i=0;i<h.V;i++)S.c.push(gr(h.U));S.pool={b:0,e:0,d:0}}}
+function mv(f,k,j){var s=f<0?S.pool:S.c[f];if(s[k]<=0)return;s[k]--;S.c[j][k]++}
+function drop(s,el){var a=s.split(':'),f=a[0]=='p'?-1:+a[0],k=a[1],t=el&&el.closest?el.closest('[data-can],#pool,#newc'):null;
+if(t){if(t.id=='pool'){if(f>=0&&S.c[f][k]>0){S.c[f][k]--;S.pool[k]++}}
+else if(t.id=='newc'){S.c.push({b:0,e:0,d:0});mv(f,k,S.c.length-1)}
+else if(+t.dataset.can!=f)mv(f,k,+t.dataset.can)}
+draw()}
+var D=null;
+function mm(e){if(D){D.g.style.left=e.clientX-D.w/2+'px';D.g.style.top=e.clientY-D.h/2+'px'}}
+document.addEventListener('pointerdown',function(e){var b=e.target.closest&&e.target.closest('[data-src]');if(!b||S.done||D)return;
+e.preventDefault();var r=b.getBoundingClientRect(),g=b.cloneNode(true);g.removeAttribute('data-src');g.setAttribute('class','ghost');g.style.width=r.width+'px';g.style.height=r.height+'px';document.body.appendChild(g);
+D={s:b.dataset.src,g:g,w:r.width,h:r.height};b.style.opacity=.3;mm(e)});
+document.addEventListener('pointermove',mm);
+document.addEventListener('pointerup',function(e){if(!D)return;var el=document.elementFromPoint(e.clientX,e.clientY),s=D.s;D.g.remove();D=null;drop(s,el)});
+document.addEventListener('pointercancel',function(){if(D){D.g.remove();D=null;draw()}});
+function cam(n){if(S.done)return;var p=S.pool;
+if(n==1&&p.b>0){p.b--;p.e+=10}else if(n==2&&p.e>=10){p.e-=10;p.b++}else if(n==3&&p.e>0){p.e--;p.d+=10}else if(n==4&&p.d>=10){p.d-=10;p.e++}
+draw()}
+function addCan(){if(!S.done){S.c.push({b:0,e:0,d:0});draw()}}
+function delCan(){if(S.done||!S.c.length)return;var o=S.c.pop();S.pool.b+=o.b;S.pool.e+=o.e;S.pool.d+=o.d;draw()}
+function reset(){init();draw()}
+function pk(k,l){if(S.done||S.step==2)return;S.lt[k]=l;draw()}
+function go(){if(S.ord.every(function(k){return S.lt[k]})){S.step=2;draw()}}
+function chk(){var h=S.ch,m=h.m,x=pr(S.inp),z=S.pool.b+S.pool.e+S.pool.d==0;
+S.rA=m=='v'?x==h.V:Math.round(x*100)==(m=='u'?h.U:h.T);
+S.rB=m=='u'?(z&&S.c.every(function(o){return val(o)==val(S.c[0])})):m=='v'?(z&&S.c.length==h.V&&S.c.every(function(o){return val(o)==h.U})):null;
+S.rL=['T','U','V'].every(function(k){return S.lt[k]==k});
+S.done=true;if(S.rA&&S.rL&&S.rB!==false){S.ok++;S.streak++}else S.streak=0;draw()}
+function draw(){var h=S.ch,m=h.m,g=h.p,vals={U:fm(h.U),V:h.V,T:fm(h.T)},e={u:fm(h.U),v:h.V,t:fm(h.T)}[m],q={u:'U',v:'V',t:'T'}[m],o='',good=S.rA&&S.rL&&S.rB!==false;
+var tx={t:'Compras '+h.V+' '+g[1]+'. Cada '+g[0]+' cuesta '+fm(h.U)+'. ¿Cuánto cuesta toda la compra?',
+u:'Compras '+h.V+' '+g[1]+' iguales y pagas '+fm(h.T)+' en total. ¿Cuánto cuesta cada '+g[0]+'?',
+v:'Cada '+g[0]+' cuesta '+fm(h.U)+' y pagas '+fm(h.T)+' en total. ¿Cuántos '+g[1]+' compras?'}[m];
+o+='<div class="card"><p style="margin:0">'+g[2]+' '+tx+'</p></div>';
+if(S.step==1){var all=S.ord.every(function(k){return S.lt[k]});
+o+='<div class="card w"><p style="margin:0 0 .4rem"><b>Paso 1.</b> ¿Qué letra (U, V o T) corresponde a cada dato?</p>'+S.ord.map(function(k){return '<div style="display:flex;align-items:center;gap:.4rem;flex-wrap:wrap;margin:.3rem 0"><span style="flex:1;min-width:9rem">'+NM[k]+': <b>'+(k==q?'?':vals[k])+'</b></span>'+['U','V','T'].map(function(l){return '<button class="'+(S.lt[k]==l?'on':'')+'" onclick="pk(\''+k+'\',\''+l+'\')">'+l+'</button>'}).join('')+'</div>'}).join('')+'<div class="ctl"><button class="pri" onclick="go()"'+(all?'':' disabled')+'>Continuar ▶</button></div></div>'}
+else{
+var pool='<div class="pw"><div class="pool" id="pool">'+(S.pool.b+S.pool.e+S.pool.d?cn(S.pool,'p'):'<span class="sc">'+(m=='t'?'Caja':'Monedero')+'</span>')+'</div>'+(S.done?'':'<div class="xc"><button onclick="cam(1)">10 € → 10 × 1 €</button><button onclick="cam(2)">10 × 1 € → 10 €</button><button onclick="cam(3)">1 € → 10 × 10c</button><button onclick="cam(4)">10 × 10c → 1 €</button></div>')+'</div>';
+var row='<div class="row">'+S.c.map(function(x,j){return '<span class="it" data-can="'+j+'"><span class="em">'+g[2]+'</span><span class="bx">'+cn(x,j)+'</span></span>'}).join('')+(m=='v'?'<span class="newc" id="newc" onclick="addCan()">+<br>artículo<br>nuevo</span>':'')+'</div>';
+o+='<div class="card"><p class="pr"><b>Paso 2.</b></p>'+(m=='t'?row+pool:pool+row);
+if(!S.done)o+='<div class="ctl">'+(m=='v'?'<button onclick="delCan()">Quitar artículo</button>':'')+'<button onclick="reset()">Empezar de nuevo</button></div>';
+o+='</div>';
+if(!S.done){
+o+='<div class="card w"><p style="margin:0 0 .4rem">Tu respuesta:</p><div class="ans"><input id="in" inputmode="'+(m=='v'?'numeric':'decimal')+'" autocomplete="off" placeholder="?" value="'+S.inp+'" oninput="S.inp=this.value"><span class="un">'+(m=='v'?g[1]:'€')+'</span><button class="pri" onclick="chk()">Terminar</button></div><p class="sc">Cuando creas que lo tienes, pulsa Terminar.</p></div>'}
+else{var a=Math.floor(h.U/100),b=(h.U%100)/10,dT=h.T/10,dU=h.U/10;
+o+='<div class="card w"><p class="msg '+(good?'ok':'bad')+'">'+(good?'¡Muy bien!':'Esta vez no ha salido. Fíjate en la explicación.')+'</p>'
++'<p style="margin:.2rem 0">'+(S.rL?'✓':'✗')+' Letras'+(S.rL?'':': '+['T','U','V'].map(function(k){return k+' = '+NM[k]}).join(', '))+'</p>'
++(S.rB===null?'':'<p style="margin:.2rem 0">'+(S.rB?'✓':'✗')+' Dinero repartido'+(S.rB?'':m=='u'?': tiene que haber lo mismo en todos los artículos y no puede quedar dinero sin repartir':': tendría que haber '+h.V+' artículos con '+fm(h.U)+' cada uno')+'</p>')
++'<p style="margin:.2rem 0">'+(S.rA?'✓':'✗')+' Respuesta: '+e+(S.rA?'':' (tú pusiste '+(S.inp||'nada')+')')+'</p>'
++'<div class="eq">'+(m=='t'?'T = U × V → '+fm(h.U)+' × '+h.V+' = '+fm(h.T):m=='u'?'U = T ÷ V → '+fm(h.T)+' ÷ '+h.V+' = '+fm(h.U):'V = T ÷ U → '+fm(h.T)+' ÷ '+fm(h.U)+' = '+h.V)+'</div>'
++'<p style="margin:.2rem 0">'+(m=='t'?'Se multiplica. Euros y décimas: '+a+' × '+h.V+' = '+a*h.V+' € y '+b+' × '+h.V+' = '+b*h.V+' monedas de 10 c = '+fm(b*h.V*10)+'; '+a*h.V+' + '+fn(b*h.V*10)+' = '+fm(h.T)+'.':m=='u'?'Es un reparto: '+fm(h.T)+' entre '+h.V+' artículos. En monedas de 10 c: '+dT+' ÷ '+h.V+' = '+dU+' monedas de 10 c = '+fm(h.U)+'.':'Es una agrupación: ¿cuántos grupos de '+fm(h.U)+' caben en '+fm(h.T)+'? En monedas de 10 c: '+dT+' ÷ '+dU+' = '+h.V+'.')+'</p>'
++(m=='t'?'':'<p style="margin:.2rem 0">Comprobación con la multiplicación: '+fm(h.U)+' × '+h.V+' = '+fm(h.T)+'.</p>')
++'<div class="row">'+Array(h.V+1).join('<span class="it"><span class="em">'+g[2]+'</span><span class="bx">'+cn(gr(h.U),null)+'</span></span>')+'</div>'
++'<div class="ctl"><button class="pri" onclick="next()">Siguiente ▶</button></div></div>'}}
+$('app').innerHTML=o;
+$('sc').textContent='Aciertos: '+S.ok+' · Racha: '+S.streak}
+next();
+</script>
+</body></html>
